@@ -1,8 +1,6 @@
 services:
   chirp:
-    build:
-      context: .
-      dockerfile: Dockerfile.app
+    image: ${DOCKER_USERNAME}/chirp
     container_name: chirp
     environment:
       - ASPNETCORE_URLS=http://0.0.0.0:5273

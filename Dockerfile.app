@@ -14,7 +14,7 @@ RUN mkdir -p /app/data
 EXPOSE 5273
 
 # Set environment variables
-ENV ASPNETCORE_URLS=http://+:5273
+ENV ASPNETCORE_URLS=http://0.0.0.0:5273
 ENV ConnectionStrings__DefaultConnection="Data Source=/app/data/chirp.db"
 
 # Run the application
