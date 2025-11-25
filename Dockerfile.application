@@ -1,0 +1,18 @@
+# Use an official dotnet runtime as the base image
+FROM ubuntu/dotnet-runtime:8.0-24.04_beta
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy application files
+COPY . .
+
+# Expose the port the app will run on
+EXPOSE 5000
+
+# Ensures data persistency
+RUN mkdir -p /app/data
+ENV DB_PATH=/app/data
+
+# Run the Sinatra application when the container starts
+CMD ["dotnet", "run"]
