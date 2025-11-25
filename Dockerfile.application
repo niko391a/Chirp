@@ -1,18 +1,21 @@
-# Use an official dotnet runtime as the base image
-FROM ubuntu/dotnet-runtime:8.0-24.04_beta
+# Use the ASP.NET runtime image (smaller than SDK)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy application files
-COPY . .
+# Copy the published output
+COPY src/Chirp.Web/bin/Release/net8.0/publish . 
 
-# Expose the port the app will run on
-EXPOSE 5000
-
-# Ensures data persistency
+# Create data directory for SQLite database
 RUN mkdir -p /app/data
-ENV DB_PATH=/app/data
 
-# Run the Sinatra application when the container starts
-CMD ["dotnet", "run"]
+# Expose the port
+EXPOSE 5273
+
+# Set environment variables
+ENV ASPNETCORE_URLS=http://+:5273
+ENV ConnectionStrings__DefaultConnection="Data Source=/app/data/chirp.db"
+
+# Run the application
+ENTRYPOINT ["dotnet", "Chirp.Web.dll"]
