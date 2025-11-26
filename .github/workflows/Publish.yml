@@ -1,4 +1,5 @@
-﻿name: Publish
+﻿name: Publish and push
+
 on:
   push:
     tags:
