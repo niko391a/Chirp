@@ -1,0 +1,20 @@
+services:
+  chirp:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: chirp
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:5273
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/chirp.db
+      - AUTHENTICATION_GITHUB_CLIENTID=${GITHUB_CLIENTID}
+      - AUTHENTICATION_GITHUB_CLIENTSECRET=${GITHUB_CLIENTSECRET}
+    volumes:
+      - chirp-data:/app/data
+    ports:
+      - "5273:5273"
+    restart: unless-stopped
+
+volumes:
+  chirp-data:
+    driver: local

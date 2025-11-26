@@ -1,0 +1,21 @@
+# Use the ASP.NET runtime image (smaller than SDK)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the published output
+COPY src/Chirp.Web/bin/Release/net8.0/publish . 
+
+# Create data directory for SQLite database
+RUN mkdir -p /app/data
+
+# Expose the port
+EXPOSE 5273
+
+# Set environment variables
+ENV ASPNETCORE_URLS=http://0.0.0.0:5273
+ENV ConnectionStrings__DefaultConnection="Data Source=/app/data/chirp.db"
+
+# Run the application
+ENTRYPOINT ["dotnet", "Chirp.Web.dll"]
