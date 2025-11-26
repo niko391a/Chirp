@@ -68,7 +68,7 @@ namespace Chirp.Web
                 throw new ApplicationException("Failed to retrieve the Github Secret. Make sure that the github value is set on the machine.");
             }
             
-            // Add GitHub Services
+            // Add GitHub Services as well as redirect-uri
             builder.Services.AddAuthentication()
                 .AddGitHub(options =>
                 {
