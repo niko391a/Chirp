@@ -2,8 +2,10 @@
 
 on:
   push:
-    tags:
-      - 'v*'  # This will trigger the workflow on any tag starting with 'v'
+    branches:
+    - main
+  #   tags:
+  #     - 'v*'  # This will trigger the workflow on any tag starting with 'v'
   workflow_dispatch: # allow manual triggers for testing purposes
 
 jobs:
