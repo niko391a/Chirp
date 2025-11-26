@@ -39,7 +39,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/chirp:latest
 
-  release:
+  release: # Runs Simultaneously alongside push
     timeout-minutes: 60
     name: Release
     strategy:
