@@ -5,7 +5,7 @@ using Chirp.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.HttpOverrides; // for CloudFlare headers
 
 
 namespace Chirp.Web
@@ -104,6 +104,15 @@ namespace Chirp.Web
             // Build the application
             var app = builder.Build();
 
+            // Configure Forwarded Headers for Cloudflare Tunnel
+            var forwardedHeaderOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            };
+            forwardedHeaderOptions.KnownNetworks.Clear();
+            forwardedHeaderOptions.KnownProxies.Clear();
+            app.UseForwardedHeaders(forwardedHeaderOptions);
+
             // Seed the database after the application is built
             using (var scope = app.Services.CreateScope())
             {
@@ -142,14 +151,10 @@ namespace Chirp.Web
                     "script-src 'self' 'unsafe-inline' https://bdsagroup07chirprazor.azurewebsites.net/;" + // Allow scripts from self and Azure
                     "worker-src 'self';");                               // Allow workers from self
                 await next();
-            });
-
-            
-            
+            });    
 
             //Use CORS
             app.UseCors();
-            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
