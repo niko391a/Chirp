@@ -42,7 +42,6 @@ jobs:
   release:
     timeout-minutes: 60
     name: Release
-    needs: [unit_test, integration_test, e2e_test]
     strategy:
       matrix:
         kind: [linux-x64, win-x64, osx-x64, osx-arm64]
